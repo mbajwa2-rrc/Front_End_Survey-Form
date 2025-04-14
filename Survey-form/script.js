@@ -5,17 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const ratingValue = document.getElementById("ratingValue");
     const form = document.getElementById("surveyForm");
   
-    // Show/hide "Other" input
+   
     languageSelect.addEventListener("change", function () {
       otherLangDiv.classList.toggle("hidden", this.value !== "Other");
     });
   
-    // Display slider value
+    
     rating.addEventListener("input", () => {
       ratingValue.textContent = rating.value;
     });
   
-    // Form validation
+    
     form.addEventListener("submit", function (e) {
       let isValid = true;
   
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const age = document.getElementById("age");
       const consent = document.getElementById("consent");
   
-      // Full name validation
+      
       if (fullName.value.trim() === "") {
         document.getElementById("nameError").textContent = "Full name is required.";
         isValid = false;
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("nameError").textContent = "";
       }
   
-      // Email validation
+     
       const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
       if (!emailRegex.test(email.value)) {
         document.getElementById("emailError").textContent = "Enter a valid email.";
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("emailError").textContent = "";
       }
   
-      // Age validation
+     
       if (age.value < 13 || age.value > 120) {
         document.getElementById("ageError").textContent = "Enter a valid age between 13 and 120.";
         isValid = false;
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("ageError").textContent = "";
       }
   
-      // Consent checkbox
+      
       if (!consent.checked) {
         document.getElementById("consentError").textContent = "You must agree to continue.";
         isValid = false;
