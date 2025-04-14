@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Client-Side Survey Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Feedback Survey</h1>
+  <form id="surveyForm" novalidate>
+    <!-- 1. Full Name (Text) -->
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName" required>
+    <span class="error" id="nameError"></span><br><br>
+
+    <!-- 2. Email (Text with regex validation) -->
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" required>
+    <span class="error" id="emailError"></span><br><br>
+
+    <!-- 3. Age (Number) -->
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" min="13" max="120" required>
+    <span class="error" id="ageError"></span><br><br>
+
+    <!-- 4. Gender (Radio Buttons) -->
+    <fieldset>
+      <legend>Gender:</legend>
+      <label><input type="radio" name="gender" value="Male" required> Male</label>
+      <label><input type="radio" name="gender" value="Female"> Female</label>
+      <label><input type="radio" name="gender" value="Other"> Other</label>
+    </fieldset><br>
+
+    <!-- 5. Favorite Programming Language (Dropdown) -->
+    <label for="language">Favorite Programming Language:</label>
+    <select id="language" name="language" required>
+      <option value="">-- Select --</option>
+      <option value="JavaScript">JavaScript</option>
+      <option value="Python">Python</option>
+      <option value="Java">Java</option>
+      <option value="C++">C++</option>
+      <option value="Other">Other</option>
+    </select>
+    <br><br>
+
+    <!-- 6. Other Programming Language (Text input shown conditionally) -->
+    <div id="otherLangDiv" class="hidden">
+      <label for="otherLang">Please specify:</label>
+      <input type="text" id="otherLang" name="otherLang">
+    </div><br>
+
+    <!-- 7. Skills (Checkboxes) -->
+    <fieldset>
+      <legend>Skills You Use:</legend>
+      <label><input type="checkbox" name="skills" value="HTML"> HTML</label>
+      <label><input type="checkbox" name="skills" value="CSS"> CSS</label>
+      <label><input type="checkbox" name="skills" value="JavaScript"> JavaScript</label>
+      <label><input type="checkbox" name="skills" value="React"> React</label>
+    </fieldset><br>
+
+    <!-- 8. Website Rating (Range/Slider) -->
+    <label for="rating">How would you rate our site (1-10)?</label>
+    <input type="range" id="rating" name="rating" min="1" max="10">
+    <span id="ratingValue">5</span><br><br>
+
+    <!-- 9. Comments (Textarea) -->
+    <label for="comments">Any Comments:</label><br>
+    <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Type here..."></textarea><br><br>
+
+    <!-- 10. Consent Checkbox -->
+    <label>
+      <input type="checkbox" id="consent" required>
+      I agree to the terms and conditions.
+    </label>
+    <span class="error" id="consentError"></span><br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Show "Other" input if 'Other' is selected in dropdown
+    const languageSelect = document.getElementById("language");
+    const otherLangDiv = document.getElementById("otherLangDiv");
+
+    languageSelect.addEventListener("change", function () {
+      otherLangDiv.classList.toggle("hidden", this.value !== "Other");
+    });
+
+    // Display range value
+    const rating = document.getElementById("rating");
+    const ratingValue = document.getElementById("ratingValue");
+
+    rating.addEventListener("input", () => {
+      ratingValue.textContent = rating.value;
+    });
+
+    // Basic validation example
+    const form = document.getElementById("surveyForm");
+
+    form.addEventListener("submit", function (e) {
+      let isValid = true;
+
+      // Full Name
+      const fullName = document.getElementById("fullName");
+      if (fullName.value.trim() === "") {
+        document.getElementById("nameError").textContent = "Full name is required.";
+        isValid = false;
+      } else {
+        document.getElementById("nameError").textContent = "";
+      }
+
+      // Email
+      const email = document.getElementById("email");
+      const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if (!emailRegex.test(email.value)) {
+        document.getElementById("emailError").textContent = "Enter a valid email.";
+        isValid = false;
+      } else {
+        document.getElementById("emailError").textContent = "";
+      }
+
+      // Age
+      const age = document.getElementById("age");
+      if (age.value < 13 || age.value > 120) {
+        document.getElementById("ageError").textContent = "Enter a valid age between 13 and 120.";
+        isValid = false;
+      } else {
+        document.getElementById("ageError").textContent = "";
+      }
+
+      // Consent
+      const consent = document.getElementById("consent");
+      if (!consent.checked) {
+        document.getElementById("consentError").textContent = "You must agree to continue.";
+        isValid = false;
+      } else {
+        document.getElementById("consentError").textContent = "";
+      }
+
+      if (!isValid) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
